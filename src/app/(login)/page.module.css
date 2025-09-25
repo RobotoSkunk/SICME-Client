@@ -1,0 +1,134 @@
+
+.main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 65vw;
+	height: 100vh;
+
+	& form {
+		display: inline-block;
+		text-align: center;
+
+		width: 400px;
+		padding: 15px;
+
+		border-radius: 15px;
+
+		background: white;
+
+
+		& > img {
+			margin-top: 15px;
+			margin-bottom: 25px;
+		}
+	}
+}
+
+.input {
+	position: relative;
+
+	margin: 20px auto;
+	width: 80%;
+	height: 40px;
+
+	color: #10312b;
+
+	& input {
+		width: calc(100% - 34px);
+		height: 100%;
+
+		font-size: 1em;
+
+		padding: 0px 15px;
+
+		border: 2px solid currentColor;
+		border-radius: 10px;
+
+		outline: none;
+	}
+
+	& label {
+		position: absolute;
+		left: 10px;
+		top: 50%;
+
+		background: transparent;
+		padding: 1px 5px;
+
+		transform: translateY(-50%);
+		user-select: none;
+
+		cursor: text;
+
+		transition-property: top, left, scale, background;
+		transition-duration: 0.25s;
+		transition-timing-function: ease-in-out;
+	}
+
+	&.force-display label,
+	&:focus-within label {
+		top: 0px;
+		left: 5px;
+		scale: 0.8;
+		background: white;
+	}
+}
+
+.submit-button {
+	font-size: 1.2em;
+	padding: 10px 0px;
+
+	width: 80%;
+	border: 0;
+
+	background: #10312b;
+	color: white;
+
+	border-radius: 10px;
+	cursor: pointer;
+
+	margin-bottom: 20px;
+
+	transition: background 0.2s ease;
+
+	&:hover,
+	&:focus-visible {
+		background: #006556;
+	}
+}
+
+
+@media screen and (max-width: 900px) {
+	.main {
+		width: 100vw;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.main form {
+		width: 100%;
+		height: 100%;
+
+		border-radius: 0;
+	}
+
+	.main form img {
+		margin-top: 50px;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.main form img {
+		width: 100%;
+	}
+
+	.input {
+		width: 100%;
+	}
+
+	.submit-button {
+		width: 100%;
+	}
+}
