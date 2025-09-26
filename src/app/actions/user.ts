@@ -1,6 +1,5 @@
 
 import { redirect } from 'next/navigation';
-import { ResponseAPI } from './definitions';
 
 var endpoint: string | undefined = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
