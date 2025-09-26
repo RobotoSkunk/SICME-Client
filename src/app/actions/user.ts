@@ -1,21 +1,21 @@
-import { redirect } from "next/navigation";
-import { ResponseAPI } from "./definitions";
+import { redirect } from 'next/navigation';
+import { ResponseAPI } from './definitions';
 
-var endpoint: string | undefined = process.env.NODE_ENV === "production"
+var endpoint: string | undefined = process.env.NODE_ENV === 'production'
     ? process.env.API_URL_PRODUCTION
-    : "http://localhost:5137";
+    : 'http://localhost:5137';
 
 export async function authenticate(previousState: any, formData: FormData) {
 	const username = formData.get('username');
 	const password = formData.get('password');
 
 	if(username == null || password == null){
-		return "Credenciales incorrectas."
+		return 'Credenciales incorrectas.'
 	} 
 
-	const response = await fetch(endpoint + "/api/users/login", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
+	const response = await fetch(endpoint + '/users/login', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
 			username,
 			password,
@@ -23,18 +23,18 @@ export async function authenticate(previousState: any, formData: FormData) {
 	});
 
 	if (!response.ok) {
-		return "Ha ocurrido un error interno.";
+		return 'Ha ocurrido un error interno.';
 	}
 
 	const data = (await JSON.parse(await response.text())) as ResponseAPI;
 
 	if (data.code < 0) {
-		return "Ha ocurrido un error interno.";
+		return 'Ha ocurrido un error interno.';
 	}
 
 	if (data.code > 0) {
-		return "Credenciales incorrectas.";
+		return data.message;
 	}
 
-	redirect("/dashboard");
+	redirect('/dashboard');
 }
