@@ -22,8 +22,6 @@ export async function authenticate(previousState: any, formData: FormData) {
 		}),
 	});
 
-	formData.get('username')
-
 	if (!response.ok) {
 		return "Ha ocurrido un error interno.";
 	}
