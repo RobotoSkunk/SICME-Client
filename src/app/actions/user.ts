@@ -1,11 +1,18 @@
+import { redirect } from "next/navigation";
+import { ResponseAPI } from "./definitions";
+
 var endpoint: string | undefined = process.env.NODE_ENV === "production"
     ? process.env.API_URL_PRODUCTION
     : "http://localhost:5137";
 
-import { redirect } from "next/navigation";
-import { ResponseAPI } from "./definitions";
+export async function authenticate(previousState: any, formData: FormData) {
+	const username = formData.get('username');
+	const password = formData.get('password');
 
-export async function authenticate(username: string | undefined, password: FormData,) {
+	if(username == null || password == null){
+		return "Credenciales incorrectas."
+	} 
+
 	const response = await fetch(endpoint + "/api/users/login", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -15,24 +22,20 @@ export async function authenticate(username: string | undefined, password: FormD
 		}),
 	});
 
+	formData.get('username')
+
 	if (!response.ok) {
-		return {
-			message: "Ha oucrrido un error interno.",
-		};
+		return "Ha ocurrido un error interno.";
 	}
 
 	const data = (await JSON.parse(await response.text())) as ResponseAPI;
 
 	if (data.code < 0) {
-		return {
-			message: "Ha oucrrido un error interno.",
-		};
+		return "Ha ocurrido un error interno.";
 	}
 
 	if (data.code > 0) {
-		return {
-			message: "Credenciales incorrectas.",
-		};
+		return "Credenciales incorrectas.";
 	}
 
 	redirect("/dashboard");

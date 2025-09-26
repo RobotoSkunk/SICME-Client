@@ -2,18 +2,20 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 
 import sicmeLogo from '@/assets/img/logo/sicme.svg';
 
 import { montserrat_medium } from '@/utils/fonts';
 
 import style from './page.module.css';
+import { authenticate } from '../actions/user';
 
 
 export default function Page()
 {
 	const [ hasInput, setHasInput ] = useState([ false, false ]);
+	const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
 
 	function setInputState(index: number, toggle: boolean)
 	{
@@ -25,7 +27,12 @@ export default function Page()
 
 	return (
 		<main className={ style.main }>
-			<form>
+			<form action={formAction}>
+				{errorMessage && (
+            	<>
+              	<p className="text-sm text-red-500">{errorMessage}</p>
+            		</>
+         		)}
 				<Image
 					src={ sicmeLogo }
 					alt={ 'Logo de SICME' }
