@@ -13,27 +13,32 @@ export async function authenticate(previousState: any, formData: FormData) {
 		return 'Credenciales incorrectas.'
 	} 
 
-	const response = await fetch(endpoint + '/users/login', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			username,
-			password,
-		}),
-	});
+	try{
+		const response = await fetch(endpoint + '/users/login', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				username,
+				password,
+			}),
+		});
 
-	if (!response.ok) {
+		if (!response.ok) {
+			return 'Ha ocurrido un error interno.';
+		}
+
+		const data = (await JSON.parse(await response.text())) as ResponseAPI;
+
+		if (data.code < 0) {
+			return 'Ha ocurrido un error interno.';
+		}
+
+		if (data.code > 0) {
+			return data.message;
+		}
+
+	}catch(error: any){
 		return 'Ha ocurrido un error interno.';
-	}
-
-	const data = (await JSON.parse(await response.text())) as ResponseAPI;
-
-	if (data.code < 0) {
-		return 'Ha ocurrido un error interno.';
-	}
-
-	if (data.code > 0) {
-		return data.message;
 	}
 
 	redirect('/dashboard');
