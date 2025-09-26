@@ -1,19 +1,20 @@
+
 import { redirect } from 'next/navigation';
 import { ResponseAPI } from './definitions';
 
-var endpoint: string | undefined = process.env.NODE_ENV === 'production'
-    ? process.env.API_URL_PRODUCTION
-    : 'http://localhost:5137';
+var endpoint: string | undefined = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-export async function authenticate(previousState: any, formData: FormData) {
+
+export async function authenticate(_: any, formData: FormData)
+{
 	const username = formData.get('username');
 	const password = formData.get('password');
 
-	if(username == null || password == null){
-		return 'Credenciales incorrectas.'
+	if (username == null || password == null) {
+		return 'Faltan campos.';
 	} 
 
-	try{
+	try {
 		const response = await fetch(endpoint + '/users/login', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -29,15 +30,11 @@ export async function authenticate(previousState: any, formData: FormData) {
 
 		const data = (await JSON.parse(await response.text())) as ResponseAPI;
 
-		if (data.code < 0) {
-			return 'Ha ocurrido un error interno.';
-		}
-
-		if (data.code > 0) {
+		if (data.code != 0) {
 			return data.message;
 		}
 
-	}catch(error: any){
+	} catch (_) {
 		return 'Ha ocurrido un error interno.';
 	}
 
