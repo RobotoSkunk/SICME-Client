@@ -2,7 +2,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useActionState, useState } from 'react';
+import { startTransition, useActionState } from 'react';
 
 import sicmeLogo from '@/assets/img/logo/sicme.svg';
 
@@ -10,15 +10,18 @@ import { authenticate } from '../actions/user';
 import { montserrat_medium } from '@/utils/fonts';
 
 import style from './page.module.css';
+import lazyFormAction from '../utils/lazy-form-action';
 
 
 export default function Page()
 {
-	const [ errorMessage, formAction ] = useActionState(authenticate, undefined);
+	const [ errorMessage, loginAction, isPending ] = useActionState(authenticate, null);
 
 	return (
 		<main className={ style.main }>
-			<form action={ formAction }>
+			<form
+				onSubmit={ (ev) => lazyFormAction(ev, loginAction) }
+			>
 				<Image
 					src={ sicmeLogo }
 					alt={ 'Logo de SICME' }
@@ -37,6 +40,7 @@ export default function Page()
 						placeholder=' '
 
 						className={ montserrat_medium.className }
+						required
 					/>
 					<label htmlFor='username'>Usuario</label>
 				</div>
@@ -51,6 +55,7 @@ export default function Page()
 						placeholder=' '
 
 						className={ montserrat_medium.className }
+						required
 					/>
 					<label htmlFor='password'>Contraseña</label>
 				</div>
@@ -60,6 +65,8 @@ export default function Page()
 						montserrat_medium.className,
 						style['submit-button'],
 					].join(' ')}
+
+					disabled={ isPending }
 				>
 					Iniciar Sesión
 				</button>
