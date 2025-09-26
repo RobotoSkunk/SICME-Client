@@ -41,5 +41,5 @@ export async function authenticate(previousState: any, formData: FormData) {
 		return 'Ha ocurrido un error interno.';
 	}
 
-	redirect('/dashboard');
+	redirect('/panel');
 }
