@@ -1,7 +1,6 @@
 
+import { fetchPost } from '@/utils/fetch-api';
 import { redirect } from 'next/navigation';
-
-var endpoint: string | undefined = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 
 export async function authenticate(_: any, formData: FormData)
@@ -14,13 +13,9 @@ export async function authenticate(_: any, formData: FormData)
 	} 
 
 	try {
-		const response = await fetch(endpoint + '/users/login', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				username,
-				password,
-			}),
+		const response = await fetchPost('users/login', {
+			username,
+			password,
 		});
 
 		if (!response.ok) {
