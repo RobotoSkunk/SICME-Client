@@ -6,67 +6,50 @@ import { useActionState, useState } from 'react';
 
 import sicmeLogo from '@/assets/img/logo/sicme.svg';
 
+import { authenticate } from '../actions/user';
 import { montserrat_medium } from '@/utils/fonts';
 
 import style from './page.module.css';
-import { authenticate } from '../actions/user';
 
 
 export default function Page()
 {
-	const [ hasInput, setHasInput ] = useState([ false, false ]);
-	const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
-
-	function setInputState(index: number, toggle: boolean)
-	{
-		const tempCopy = [ ...hasInput ];
-		tempCopy[index] = toggle;
-
-		setHasInput(tempCopy);
-	}
+	const [ errorMessage, formAction ] = useActionState(authenticate, undefined);
 
 	return (
 		<main className={ style.main }>
-			<form action={formAction}>
-				{errorMessage && (
-            	<>
-              	<p className="text-sm text-red-500">{errorMessage}</p>
-            		</>
-         		)}
+			<form action={ formAction }>
 				<Image
 					src={ sicmeLogo }
 					alt={ 'Logo de SICME' }
 				/>
+				{ errorMessage && (
+					<p className={ style.error }>{errorMessage}</p>
+				)}
 
 				<div
-					className={[
-						style.input,
-						hasInput[0] ? style['force-display'] : '',
-					].join(' ')}
+					className={ style.input }
 				>
 					<input
 						type='text'
 						id='username'
 						name='username'
+						placeholder=' '
 
-						onInput={ (ev) => setInputState(0, ev.currentTarget.value !== '') }
 						className={ montserrat_medium.className }
 					/>
 					<label htmlFor='username'>Usuario</label>
 				</div>
 
 				<div
-					className={[
-						style.input,
-						hasInput[1] ? style['force-display'] : '',
-					].join(' ')}
+					className={ style.input }
 				>
 					<input
 						type='password'
 						id='password'
 						name='password'
+						placeholder=' '
 
-						onInput={ (ev) => setInputState(1, ev.currentTarget.value !== '') }
 						className={ montserrat_medium.className }
 					/>
 					<label htmlFor='password'>Contraseña</label>

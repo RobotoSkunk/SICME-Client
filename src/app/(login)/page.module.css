@@ -21,7 +21,7 @@
 
 		& > img {
 			margin-top: 15px;
-			margin-bottom: 25px;
+			margin-bottom: 15px;
 		}
 	}
 }
@@ -67,8 +67,8 @@
 		transition-timing-function: ease-in-out;
 	}
 
-	&.force-display label,
-	&:focus-within label {
+	&:focus-within label,
+	&:has(input:not(:placeholder-shown)) label {
 		top: 0px;
 		left: 5px;
 		scale: 0.8;
@@ -97,6 +97,12 @@
 	&:focus-visible {
 		background: #006556;
 	}
+}
+
+.main {
+	color: #9f203b;
+	margin: 0;
+	font-size: 0.9em;
 }
 
 
