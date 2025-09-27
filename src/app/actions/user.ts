@@ -1,5 +1,5 @@
 
-import { fetchPost } from '@/utils/fetch-api';
+import { fetchPost } from '@/app/utils/fetch-api';
 import { redirect } from 'next/navigation';
 
 
