@@ -13,7 +13,7 @@ export function NavBar() {
 	return (
 		<div>
 			<div className="bg-(--primary)">
-				<div className="flex flex-col items-center gap-2 md:flex-row">
+				<div className="flex items-center gap-2 md:flex-row">
 					<button onClick={() => setOpen(!open)} className="cursor-pointer">
 						<Image
 							src={hamburguerIcon}
@@ -35,7 +35,7 @@ export function NavBar() {
 				</div>
 			</div>
 			<div
-				className={`fixed -left-full z-1 h-screen w-64 border-r border-(--details) p-3 ${open ? "left-0" : "left-full"}`}
+				className={`fixed -left-full z-1 flex h-screen w-full flex-col items-center border-r border-(--details) bg-white p-3 text-2xl md:text-base ${open ? "left-0" : "left-full"} md:w-64`}
 			>
 				<p>Panel de Información</p>
 			</div>
