@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
 	const response = NextResponse.next();
 
 	// Set CORS header
-	response.headers.set("Access-Control-Allow-Origin", "*"); // change as needed
+	response.headers.set("Access-Control-Allow-Origin", "*");
 	response.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
 	response.headers.set(
 		"Access-Control-Allow-Headers",
@@ -19,8 +19,6 @@ export function middleware(request: NextRequest) {
 			headers: response.headers,
 		});
 	}
-
-	console.log("mis huevos");
 
 	return response;
 }
