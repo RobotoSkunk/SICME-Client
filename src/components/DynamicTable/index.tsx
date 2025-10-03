@@ -2,7 +2,8 @@
 'use client';
 
 import Image from 'next/image';
-import { CSSProperties, HTMLInputTypeAttribute, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CSSProperties, useState } from 'react';
 
 import style from './style.module.css';
 
@@ -57,8 +58,8 @@ interface InputField extends FieldBase
 		| 'text'
 		| 'time';
 
-	min?: number;
-	max?: number;
+	min?: number | string;
+	max?: number | string;
 };
 
 
@@ -144,6 +145,7 @@ export default function DynamicTable({
 }: Props)
 {
 	const [ page, setPage ] = useState(0);
+	const [ newEntryOpen, setNewEntryOpen ] = useState(false);
 
 	// if (onRead) {
 	// 	const result = await onRead(0);
@@ -155,23 +157,99 @@ export default function DynamicTable({
 	return (
 		<div className={ style['dynamic-table'] }>
 			<div className={ style['top-part'] }>
-				<label
-					className={ style.searchbar }
-					htmlFor='search-input'
-				>
-					<Image
-						src={ imgSearchIcon }
-						alt=''
+				<AnimatePresence initial={ false }>
+					<motion.label
+						className={ style.searchbar }
+						htmlFor='search-input'
+						key='search-input'
 
-						width={ 25 }
-					/>
-					<input type='search' id='search-input'/>
-				</label>
+						layout
+					>
+						<Image
+							src={ imgSearchIcon }
+							alt=''
 
-				<button className={ style['new-entry'] }>
-					{ newEntryLabel ?? 'Nueva entrada' }
-				</button>
+							width={ 25 }
+						/>
+						<input type='search' id='search-input'/>
+					</motion.label>
+
+					{ !newEntryOpen &&
+						<motion.button
+							className={ style['new-entry'] }
+							disabled={ newEntryOpen }
+							onClick={ () => setNewEntryOpen(true) }
+
+							key='new-entry'
+
+							transition={{
+								type: 'tween',
+								duration: 0.2,
+							}}
+
+							initial={{ y: -25, opacity: 0 }}
+							animate={{ y:  0,  opacity: 1 }}
+							exit   ={{ y: -25, opacity: 0 }}
+						>
+							{ newEntryLabel ?? 'Nueva entrada' }
+						</motion.button>
+					}
+				</AnimatePresence>
 			</div>
+
+			<AnimatePresence>
+				{ newEntryOpen &&
+					<motion.div
+						className={ style['new-entry-panel'] }
+
+						initial={{ height: 0 }}
+						animate={{ height: 'auto' }}
+						exit   ={{ height: 0 }}
+					>
+						<p>Nueva entrada</p>
+
+						{ fields.map((field, i) =>
+						{
+							switch (field.type) {
+								case 'textarea':
+									return (
+										<textarea
+											key={ `input-${i}` }
+											className={ field.className }
+											style={ field.style }
+
+											id={ `input-${i}-${field.name}` }
+
+											name={ field.name }
+											cols={ field.cols }
+											maxLength={ field.maxLength }
+											minLength={ field.minLength }
+
+											required={ field.required }
+										/>
+									);
+								default:
+									return (
+										<input
+											key={ `input-${i}` }
+											className={ field.className }
+											style={ field.style }
+
+											id={ `input-${i}-${field.name}` }
+
+											type={ field.type }
+											name={ field.name }
+											min={ field.min }
+											max={ field.max }
+
+											required={ field.required }
+										/>
+									);
+							}
+						}) }
+					</motion.div>
+				}
+			</AnimatePresence>
 
 			<div className={ style.table }>
 				<div className={ style.row }>
