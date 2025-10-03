@@ -1,4 +1,3 @@
-@import "tailwindcss";
 
 :root {
 	--primary: #10302b;
@@ -10,9 +9,26 @@
 	--details: var(--secondary);
 }
 
-
 * {
 	color: var(--foreground);
+}
+
+html,
+body {
+	overflow: hidden;
+	margin: 0;
+
+	font-size: 1em;
+}
+
+h1 {
+	font-size: 1.8em;
+	margin: 20px 35px;
+}
+
+
+button, input, select, textarea, option {
+	font-size: 1em;
 }
 
 
@@ -22,9 +38,4 @@ button {
 
 button:disabled {
 	cursor: not-allowed;
-}
-
-html,
-body {
-	overflow: hidden;
 }
