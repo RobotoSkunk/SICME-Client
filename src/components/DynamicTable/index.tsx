@@ -168,9 +168,7 @@ export default function DynamicTable({
 					<input type='search' id='search-input'/>
 				</label>
 
-				<button
-
-				>
+				<button className={ style['new-entry'] }>
 					{ newEntryLabel ?? 'Nueva entrada' }
 				</button>
 			</div>
@@ -197,16 +195,24 @@ export default function DynamicTable({
 				{ rows.map((row, i) =>
 				(
 					<div className={ style.row } key={ i }>
-						{ Object.keys(row).map((key, i) =>
+						{fields.map((field, i) =>
 						{
-							let value = row[key] as TypeMap<typeof key>;
+							if (field.hideOnTable) {
+								return null;
+							}
+
+							let value = row[field.name] as TypeMap<typeof field.name>;
 
 							if (typeof value === 'object') {
 								value = (value as Date).toLocaleDateString();
 							}
 
 							return (
-								<div className={ style.cell } key={ i }>
+								<div
+									key={ i }
+									className={ style.cell }
+									suppressHydrationWarning // Cierra el hocico React
+								>
 									{ value }
 								</div>
 							);

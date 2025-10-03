@@ -31,9 +31,9 @@ export default function Page()
 
 			rows={
 				[... new Array(50)].map(_ => ({
-					col_1: 'texto',
-					col_2: 12345,
 					col_3: new Date(),
+					col_2: 12345,
+					col_1: 'texto',
 				}))
 			}
 		/>
