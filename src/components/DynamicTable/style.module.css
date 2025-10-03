@@ -1,0 +1,27 @@
+
+.dynamic-table {
+	padding: 20px;
+}
+
+.searchbar {
+	display: flex;
+	align-items: center;
+
+	height: 30px;
+	width: 100%;
+
+	border: 1px solid var(--primary);
+	border-radius: 5px;
+
+
+	& img {
+		margin: 0 5px;
+	}
+
+	& input {
+		flex-grow: 1;
+
+		border: 0;
+		outline: 0;
+	}
+}
